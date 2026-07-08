@@ -12,9 +12,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
+from .apps import match_source_name, resolve_app_command, resolve_source_command
 from .coordinator import HisenseVidaaCoordinator
 from .entity import HisenseVidaaEntity
-from .apps import match_source_name, resolve_app_command, resolve_source_command
 from .keys import resolve_key
 
 if TYPE_CHECKING:
