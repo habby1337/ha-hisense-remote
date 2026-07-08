@@ -62,6 +62,24 @@ def _extract_mac_from_device_info(device_info: dict[str, Any] | None) -> str | N
     return None
 
 
+def _extract_mac_from_tv_info(tv_info: dict[str, Any] | None) -> str | None:
+    if not tv_info:
+        return None
+
+    for key in ("deviceid", "device_id", "uuid", "mac"):
+        value = tv_info.get(key)
+        if isinstance(value, str) and _MAC_PATTERN.match(value):
+            return _normalize_mac(value)
+    return None
+
+
+def _normalize_pin(pin: str) -> str | None:
+    normalized = pin.strip()
+    if normalized.isdigit() and len(normalized) == 4:
+        return normalized
+    return None
+
+
 class HisenseVidaaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Hisense VIDAA."""
 
@@ -109,6 +127,54 @@ class HisenseVidaaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             token_path=self._token_path(),
         )
 
+    async def _async_prepare_pairing_client(self) -> bool:
+        """Connect with the right MAC and auth method for PIN pairing."""
+        if not self._mac:
+            self._mac = await self._async_resolve_mac()
+
+        await self._async_cleanup_client()
+        self._client = await self._async_create_client()
+        await self._client.clear_saved_credentials()
+
+        if not await self._client.connect(timeout=TIMEOUT_CONNECT):
+            return False
+
+        device_info = await self._client.get_device_info(timeout=5)
+        await self._async_apply_device_info(device_info)
+
+        if not self._mac:
+            tv_info = await self._client.get_tv_info(timeout=5)
+            info_mac = _extract_mac_from_tv_info(tv_info)
+            if info_mac:
+                self._mac = info_mac
+                self._device_id = info_mac
+
+        if self._mac and self._mac != self._client.mac_address:
+            await self._client.disconnect()
+            self._client = await self._async_create_client()
+            await self._client.clear_saved_credentials()
+            if not await self._client.connect(timeout=TIMEOUT_CONNECT):
+                return False
+
+        await self._client.apply_detected_auth_method()
+        return await self._client.connect(timeout=TIMEOUT_CONNECT)
+
+    async def _async_begin_pairing(self) -> ConfigFlowResult:
+        if not await self._async_prepare_pairing_client():
+            await self._async_cleanup_client()
+            return self.async_abort(reason="cannot_connect")
+
+        if self._mac:
+            self._device_id = self._mac
+        await self._async_set_unique_id()
+
+        if not await self._client.start_pairing():
+            await self._async_cleanup_client()
+            return self.async_abort(reason="cannot_connect")
+
+        await asyncio.sleep(1)
+        return await self.async_step_pair()
+
     async def _async_apply_device_info(self, device_info: dict[str, Any] | None) -> None:
         if not device_info:
             return
@@ -127,21 +193,6 @@ class HisenseVidaaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self._abort_if_unique_id_configured(
             updates={CONF_HOST: self._host, CONF_PORT: self._port}
         )
-
-    async def _async_begin_pairing(self) -> ConfigFlowResult:
-        await self._async_cleanup_client()
-        self._client = await self._async_create_client()
-        if not await self._client.connect(timeout=TIMEOUT_CONNECT):
-            return self.async_abort(reason="cannot_connect")
-
-        device_info = await self._client.get_device_info(timeout=5)
-        await self._async_apply_device_info(device_info)
-        if self._mac:
-            self._device_id = self._mac
-        await self._async_set_unique_id()
-        await self._client.start_pairing()
-        await asyncio.sleep(1)
-        return await self.async_step_pair()
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
@@ -189,7 +240,18 @@ class HisenseVidaaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors["base"] = "cannot_connect"
             else:
                 try:
-                    if await self._client.authenticate(user_input["pin"], timeout=10):
+                    pin = _normalize_pin(user_input["pin"])
+                    if pin is None:
+                        errors["base"] = "invalid_pin"
+                    elif not self._client.is_connected:
+                        if not await self._client.ensure_connected(timeout=TIMEOUT_CONNECT):
+                            errors["base"] = "cannot_connect"
+                        elif not await self._client.start_pairing():
+                            errors["base"] = "cannot_connect"
+                        else:
+                            await asyncio.sleep(1)
+                            errors["base"] = "pin_expired"
+                    elif await self._client.authenticate(pin, timeout=15):
                         device_info = await self._client.get_device_info(timeout=5)
                         await self._async_apply_device_info(device_info)
                         await self._client.disconnect()
@@ -210,9 +272,11 @@ class HisenseVidaaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                                 data=data,
                             )
                         return self.async_create_entry(title=self._name, data=data)
-                    errors["base"] = "invalid_pin"
-                    await self._client.start_pairing()
-                    await asyncio.sleep(1)
+                    else:
+                        errors["base"] = "invalid_pin"
+                        if await self._client.ensure_connected(timeout=TIMEOUT_CONNECT):
+                            await self._client.start_pairing()
+                            await asyncio.sleep(1)
                 except Exception as err:  # noqa: BLE001
                     _LOGGER.exception("Pairing failed: %s", err)
                     errors["base"] = "pairing_failed"
