@@ -45,8 +45,13 @@ HACS reads the version from `custom_components/hisense_vidaa/manifest.json` and 
 
 ### GitHub settings required
 
+- **Allow GitHub Actions to create and approve pull requests** enabled (Settings → Actions → General → Workflow permissions)
 - **Allow auto-merge** enabled (Settings → General → Pull Requests)
 - **Signed commits** not required for `github-actions[bot]` (or disabled in the branch ruleset)
+
+Without the first setting, Release Please fails with:
+
+`GitHub Actions is not permitted to create or approve pull requests`
 
 ### Initial version
 
