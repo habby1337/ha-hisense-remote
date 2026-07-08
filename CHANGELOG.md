@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0](https://github.com/habby1337/ha-hisense-remote/compare/ha-hisense-remote-v1.1.0...ha-hisense-remote-v1.2.0) (2026-07-08)
+
+
+### Features
+
+* **examples:** add bubble card slider opener and TV remote popup ([fd0f895](https://github.com/habby1337/ha-hisense-remote/commit/fd0f895f93cd1d6ae46d8ccf205b7e3741cd9786))
+
+
+### Bug Fixes
+
+* **examples:** improve universal-remote-card inputs and mute button ([2e42582](https://github.com/habby1337/ha-hisense-remote/commit/2e4258292b8769aebb6481ee84002c6fdc2dac0f))
+* **integration:** accept string commands in remote.send_command ([52dddeb](https://github.com/habby1337/ha-hisense-remote/commit/52dddeb297551adeadadccab65bf72c2e92281b1))
+
 ## [1.1.0](https://github.com/habby1337/ha-hisense-remote/compare/ha-hisense-remote-v1.0.3...ha-hisense-remote-v1.1.0) (2026-07-08)
 
 
