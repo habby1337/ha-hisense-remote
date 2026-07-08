@@ -34,6 +34,7 @@ jobs:
       - name: Merge release PR
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.RELEASE_TOKEN || github.token }}
           script: |
             const { owner, repo } = context.repo;
             const head = "release-please--branches--main--components--ha-hisense-remote";
@@ -68,7 +69,7 @@ jobs:
                 `Could not merge release PR #${releasePr.number}: ${error.message}`,
               );
               core.info(
-                "Ensure github-actions[bot] is in the main ruleset bypass list",
+                "Add RELEASE_TOKEN (PAT) or relax the main ruleset: 0 required approvals and no code owner review",
               );
             }
 
