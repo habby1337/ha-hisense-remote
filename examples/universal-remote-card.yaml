@@ -1,10 +1,11 @@
 # Hisense VIDAA — Universal Remote Card (dark layout)
 #
-# Requirements: HACS → Universal Remote Card
+# Requirements: HACS → Universal Remote Card, optional card-mod
 # Replace entity IDs with your TV entities.
 #
-# Apps (netflix, youtube, …) and inputs (hdmi1, av, tv, …) are sent as
-# remote.send_command keys and handled by the integration.
+# Generic Remote only ships a few built-in source shortcuts (e.g. tv, netflix).
+# AV/HDMI inputs are defined as custom buttons below.
+# Apps and inputs are sent as remote.send_command keys and handled by the integration.
 
 type: custom:universal-remote-card
 platform: Generic Remote
@@ -13,9 +14,7 @@ media_player_id: media_player.hisense_tv
 title: Hisense TV
 rows:
   - - power
-  - - volume_down
-    - mute
-    - volume_up
+  - - volume_buttons
   - - dpad
   - - home
     - back
@@ -29,6 +28,24 @@ rows:
   - - netflix
     - youtube
 custom_actions:
+  - type: button
+    name: av
+    icon: mdi:video-input-component
+    tap_action:
+      action: key
+      key: av
+  - type: button
+    name: hdmi1
+    icon: mdi:hdmi-port
+    tap_action:
+      action: key
+      key: hdmi1
+  - type: button
+    name: hdmi2
+    icon: mdi:hdmi-port
+    tap_action:
+      action: key
+      key: hdmi2
   - type: slider
     name: slider
     range: [0, 1]
@@ -64,13 +81,13 @@ styles: |-
     padding: 10px;
     margin: 2px;
   }
-  #mute {
+  #volume_mute {
     background: #3a3a3c;
     border-radius: 50%;
     padding: 18px;
     margin: 0 8px;
   }
-  #mute::part(icon) {
+  #volume_mute::part(icon) {
     color: #f2f2f2;
     --icon-size: 28px;
   }
