@@ -1,11 +1,10 @@
-# Hisense VIDAA — custom dashboard (native Lovelace, no extra cards)
+# Hisense VIDAA — custom dashboard (native Lovelace)
 #
 # Paste as a dashboard view or adapt to sections layout.
 # Replace entity IDs with your TV entities.
 
 title: Hisense TV
 path: hisense-tv
-theme: default
 type: panel
 cards:
   - type: vertical-stack
@@ -17,13 +16,6 @@ cards:
           - entity: media_player.hisense_tv
             name: Hisense TV
             secondary_info: last-changed
-        card_mod:
-          style: |
-            ha-card {
-              background: #1c1c1e;
-              color: #f2f2f2;
-              border: none;
-            }
 
       - type: entities
         title: Input / App
@@ -31,9 +23,6 @@ cards:
         entities:
           - entity: media_player.hisense_tv
             name: Active Source
-        card_mod:
-          style: |
-            ha-card { background: #1c1c1e; color: #f2f2f2; border: none; }
 
       - type: grid
         columns: 3
@@ -44,14 +33,11 @@ cards:
             icon: mdi:power
             tap_action:
               action: perform-action
-              perform_action: remote.toggle
+              perform_action: media_player.toggle
               target:
-                entity_id: remote.hisense_tv_remote
+                entity_id: media_player.hisense_tv
             hold_action:
               action: none
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #ff453a; border: none; }
 
           - type: button
             name: Mute
@@ -62,10 +48,7 @@ cards:
               target:
                 entity_id: remote.hisense_tv_remote
               data:
-                command: mute
-            card_mod:
-              style: |
-                ha-card { background: #3a3a3c; color: #f2f2f2; border: none; border-radius: 50%; }
+                command: volume_mute
 
           - type: button
             name: Home
@@ -77,9 +60,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: home
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: Vol -
@@ -91,9 +71,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: volume_down
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: tile
             entity: media_player.hisense_tv
@@ -103,9 +80,6 @@ cards:
               - type: media-player-volume
             hide_state: true
             vertical: false
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: Vol +
@@ -117,9 +91,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: volume_up
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: Up
@@ -131,9 +102,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: up
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: OK
@@ -145,9 +113,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: center
-            card_mod:
-              style: |
-                ha-card { background: #3a3a3c; color: #d1d1d6; border: none; border-radius: 50%; }
 
           - type: button
             name: Down
@@ -159,9 +124,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: down
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: Left
@@ -173,9 +135,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: left
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: Back
@@ -187,9 +146,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: back
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: Right
@@ -201,9 +157,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: right
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: Menu
@@ -215,9 +168,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: menu
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: Play/Pause
@@ -229,9 +179,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: play_pause
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: Stop
@@ -243,15 +190,9 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: stop
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
       - type: markdown
         content: "### Video Inputs"
-        card_mod:
-          style: |
-            ha-card { background: transparent; color: #8e8e93; border: none; box-shadow: none; }
 
       - type: grid
         columns: 4
@@ -267,9 +208,6 @@ cards:
                 entity_id: media_player.hisense_tv
               data:
                 source: tv
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: AV
@@ -281,9 +219,6 @@ cards:
                 entity_id: media_player.hisense_tv
               data:
                 source: av
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: HDMI 1
@@ -295,9 +230,6 @@ cards:
                 entity_id: media_player.hisense_tv
               data:
                 source: hdmi1
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
           - type: button
             name: HDMI 2
@@ -309,15 +241,9 @@ cards:
                 entity_id: media_player.hisense_tv
               data:
                 source: hdmi2
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #f2f2f2; border: none; }
 
       - type: markdown
         content: "### Apps"
-        card_mod:
-          style: |
-            ha-card { background: transparent; color: #8e8e93; border: none; box-shadow: none; }
 
       - type: grid
         columns: 2
@@ -328,25 +254,19 @@ cards:
             icon: mdi:netflix
             tap_action:
               action: perform-action
-              perform_action: hisense_vidaa.launch_app
+              perform_action: remote.send_command
+              target:
+                entity_id: remote.hisense_tv_remote
               data:
-                app: netflix
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #e50914; border: none; }
+                command: netflix
 
           - type: button
             name: YouTube
             icon: mdi:youtube
             tap_action:
               action: perform-action
-              perform_action: hisense_vidaa.launch_app
+              perform_action: remote.send_command
+              target:
+                entity_id: remote.hisense_tv_remote
               data:
-                app: youtube
-            card_mod:
-              style: |
-                ha-card { background: #2c2c2e; color: #ff0000; border: none; }
-
-    card_mod:
-      style: |
-        ha-card { background: #161616; border: none; box-shadow: none; }
+                command: youtube
