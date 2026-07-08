@@ -9,13 +9,7 @@
 3. Open a PR and wait for CI (`validate`) to pass
 4. Merge the PR into `main`
 
-Apply the repository ruleset once (repository admin):
-
-```bash
-gh api repos/habby1337/ha-hisense-remote/rulesets --method POST --input .github/rulesets/main.json
-```
-
-The ruleset blocks direct pushes to `main`, requires CI to pass, and allows `github-actions[bot]` to push release commits.
+`main` is protected on GitHub and requires CI to pass before merge.
 
 ## Development environment
 
