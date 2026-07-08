@@ -1,0 +1,339 @@
+# Hisense VIDAA — Bubble Card remote (pop-up)
+#
+# Requirements: HACS → Bubble Card, optional card-mod
+# Copy both cards into the same dashboard view.
+# Replace entity IDs with your TV entities.
+
+# --- Card 1: opener (place anywhere in the view) ---
+type: custom:bubble-card
+card_type: button
+button_type: state
+entity: media_player.hisense_tv
+name: Hisense TV
+icon: mdi:television
+show_state: true
+show_last_changed: false
+tap_action:
+  action: navigate
+  navigation_path: "#hisense-remote"
+styles: |-
+  :host {
+    --bubble-main-background-color: #1c1c1e;
+    --bubble-icon-color: #f2f2f2;
+    --bubble-name-color: #f2f2f2;
+    --bubble-state-color: #8e8e93;
+  }
+
+# --- Card 2: pop-up remote (can be anywhere in the view) ---
+---
+type: custom:bubble-card
+card_type: pop-up
+hash: "#hisense-remote"
+name: Hisense TV
+icon: mdi:remote-tv
+show_header: true
+show_close_button: true
+bg_color: "#1c1c1e"
+bg_opacity: "100"
+shadow_opacity: "0"
+close_by_clicking_outside: true
+cards:
+  - type: custom:bubble-card
+    card_type: select
+    entity: media_player.hisense_tv
+    name: Input / App
+    icon: mdi:hdmi-port
+    show_state: true
+    styles: |-
+      :host {
+        --bubble-main-background-color: #2c2c2e;
+        --bubble-icon-color: #f2f2f2;
+        --bubble-name-color: #f2f2f2;
+      }
+
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Power
+        icon: mdi:power
+        tap_action:
+          action: perform-action
+          perform_action: remote.toggle
+          target:
+            entity_id: remote.hisense_tv_remote
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #ff453a; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Mute
+        icon: mdi:volume-off
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: mute
+        styles: |-
+          :host { --bubble-main-background-color: #3a3a3c; --bubble-icon-color: #f2f2f2; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Home
+        icon: mdi:home
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: home
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Vol -
+        icon: mdi:volume-minus
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: volume_down
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: slider
+        entity: media_player.hisense_tv
+        name: Volume
+        icon: mdi:volume-high
+        show_icon: true
+        show_name: false
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Vol +
+        icon: mdi:volume-plus
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: volume_up
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Up
+        icon: mdi:chevron-up
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: up
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: OK
+        icon: mdi:circle
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: center
+        styles: |-
+          :host { --bubble-main-background-color: #3a3a3c; --bubble-icon-color: #d1d1d6; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Down
+        icon: mdi:chevron-down
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: down
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Left
+        icon: mdi:chevron-left
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: left
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Back
+        icon: mdi:arrow-left
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: back
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Right
+        icon: mdi:chevron-right
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: right
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Menu
+        icon: mdi:menu
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: menu
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+  - type: custom:bubble-card
+    card_type: separator
+    name: Inputs
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: TV
+        icon: mdi:antenna
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: tv
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: AV
+        icon: mdi:video-input-component
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: av
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: HDMI 1
+        icon: mdi:hdmi-port
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: hdmi1
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: HDMI 2
+        icon: mdi:hdmi-port
+        tap_action:
+          action: perform-action
+          perform_action: remote.send_command
+          target:
+            entity_id: remote.hisense_tv_remote
+          data:
+            command: hdmi2
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
+
+  - type: custom:bubble-card
+    card_type: separator
+    name: Apps
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: Netflix
+        icon: mdi:netflix
+        tap_action:
+          action: perform-action
+          perform_action: hisense_vidaa.launch_app
+          data:
+            app: netflix
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #e50914; }
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        name: YouTube
+        icon: mdi:youtube
+        tap_action:
+          action: perform-action
+          perform_action: hisense_vidaa.launch_app
+          data:
+            app: youtube
+        styles: |-
+          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #ff0000; }

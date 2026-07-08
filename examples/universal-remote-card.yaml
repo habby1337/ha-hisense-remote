@@ -1,26 +1,31 @@
-# Example Universal Remote Card configuration for Hisense VIDAA.
-# Replace entity IDs with your actual TV entities.
+# Hisense VIDAA — Universal Remote Card (dark layout)
+#
+# Requirements: HACS → Universal Remote Card
+# Replace entity IDs with your TV entities.
+#
+# Apps (netflix, youtube, …) and inputs (hdmi1, av, tv, …) are sent as
+# remote.send_command keys and handled by the integration.
 
 type: custom:universal-remote-card
 platform: Generic Remote
-remote_id: remote.living_room_remote
-media_player_id: media_player.living_room
+remote_id: remote.hisense_tv_remote
+media_player_id: media_player.hisense_tv
+title: Hisense TV
 rows:
   - - power
-  - - volume_up
-    - slider
-    - volume_down
+  - - volume_down
     - mute
-  - - up
-  - - left
-    - center
-    - right
-  - - down
+    - volume_up
+  - - dpad
   - - home
     - back
     - menu
   - - play_pause
     - stop
+  - - tv
+    - av
+    - hdmi1
+    - hdmi2
   - - netflix
     - youtube
 custom_actions:
@@ -29,13 +34,68 @@ custom_actions:
     range: [0, 1]
     step: 0.01
     value_attribute: volume_level
-    entity_id: media_player.living_room
+    entity_id: media_player.hisense_tv
     tap_action:
       action: perform-action
       perform_action: media_player.volume_set
       target:
-        entity_id: media_player.living_room
+        entity_id: media_player.hisense_tv
       data:
         volume_level: "{{ value | float }}"
     vertical: true
     icon: mdi:volume-high
+styles: |-
+  :host {
+    --ha-card-background: #161616;
+    background: #161616;
+    color: #f2f2f2;
+    border-radius: 20px;
+    padding: 8px 0 16px;
+  }
+  .row {
+    justify-content: center;
+    gap: 4px;
+  }
+  remote-button {
+    --icon-color: #f2f2f2;
+    --icon-size: 26px;
+    background: transparent;
+    border-radius: 50%;
+    padding: 10px;
+    margin: 2px;
+  }
+  #mute {
+    background: #3a3a3c;
+    border-radius: 50%;
+    padding: 18px;
+    margin: 0 8px;
+  }
+  #mute::part(icon) {
+    color: #f2f2f2;
+    --icon-size: 28px;
+  }
+  #center::part(icon),
+  remote-circlepad #center::part(icon) {
+    color: #d1d1d6;
+  }
+  remote-circlepad remote-button {
+    background: transparent;
+  }
+  remote-circlepad #center {
+    background: #3a3a3c;
+    border-radius: 50%;
+    padding: 14px;
+  }
+  .background {
+    background: #2c2c2e;
+  }
+  .thumb {
+    background: #f2f2f2;
+  }
+card_mod:
+  style: |
+    ha-card {
+      background: #161616 !important;
+      border: none;
+      box-shadow: none;
+    }
