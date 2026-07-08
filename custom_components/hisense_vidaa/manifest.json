@@ -1,18 +1,18 @@
 {
-  "domain": "hisense_vidaa",
-  "name": "Hisense VIDAA",
-  "codeowners": ["@habby1337"],
-  "config_flow": true,
-  "dependencies": [],
-  "documentation": "https://github.com/habby1337/ha-hisense-remote",
-  "integration_type": "device",
-  "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/habby1337/ha-hisense-remote/issues",
-  "requirements": ["vidaa-control==1.1.0"],
-  "ssdp": [
-    {
-      "st": "urn:schemas-upnp-org:device:MediaRenderer:1"
-    }
-  ],
-  "version": "0.1.0"
+	"domain": "hisense_vidaa",
+	"name": "Hisense VIDAA",
+	"codeowners": ["@habby1337"],
+	"config_flow": true,
+	"dependencies": [],
+	"documentation": "https://github.com/habby1337/ha-hisense-remote",
+	"integration_type": "device",
+	"iot_class": "local_polling",
+	"issue_tracker": "https://github.com/habby1337/ha-hisense-remote/issues",
+	"requirements": ["vidaa-control==1.1.0"],
+	"ssdp": [
+		{
+			"st": "urn:schemas-upnp-org:device:MediaRenderer:1"
+		}
+	],
+	"version": "0.1.0"
 }
