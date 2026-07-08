@@ -15,6 +15,8 @@ REMOTE_CARD_ALIASES: dict[str, str] = {
     "next": "forward",
     "volume_up": "volumeup",
     "volume_down": "volumedown",
+    "volume_mute": "mute",
+    "mute": "mute",
     "vol_up": "volumeup",
     "vol_down": "volumedown",
     "ch_up": "channelup",
