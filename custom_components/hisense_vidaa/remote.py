@@ -12,7 +12,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .apps import match_source_name, resolve_app_command, resolve_source_command
+from .apps import match_source_name, normalize_commands, resolve_app_command, resolve_source_command
 from .coordinator import HisenseVidaaCoordinator
 from .entity import HisenseVidaaEntity
 from .keys import resolve_key
@@ -95,12 +95,13 @@ class HisenseVidaaRemote(HisenseVidaaEntity, RemoteEntity):
     async def async_turn_off(self, **kwargs: Any) -> None:
         await self.coordinator.async_turn_off()
 
-    async def async_send_command(self, command: Iterable[str], **kwargs: Any) -> None:
+    async def async_send_command(self, command: str | Iterable[str], **kwargs: Any) -> None:
+        commands = normalize_commands(command)
         num_repeats = kwargs.get("num_repeats", 1)
         delay_secs = kwargs.get("delay_secs", 0.2)
 
         for _ in range(num_repeats):
-            for cmd in command:
+            for cmd in commands:
                 await self._async_dispatch_command(cmd)
             if delay_secs > 0:
                 await asyncio.sleep(delay_secs)
@@ -125,6 +126,8 @@ class HisenseVidaaRemote(HisenseVidaaEntity, RemoteEntity):
         apps = await self.coordinator.async_get_apps() or []
         normalized = command.strip().lower()
         for app in apps:
+            if not isinstance(app, dict):
+                continue
             name = app.get("name")
             if isinstance(name, str) and name.lower() == normalized:
                 await self.coordinator.async_launch_app(name)

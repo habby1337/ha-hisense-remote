@@ -34,3 +34,8 @@ def test_match_source_name() -> None:
     sources = [{"sourcename": "HDMI 1"}, {"displayname": "AV"}]
     assert match_source_name("hdmi1", sources) == "HDMI 1"
     assert match_source_name("av", sources) == "AV"
+
+
+def test_match_source_name_skips_non_dict_entries() -> None:
+    sources = ["HDMI 1", {"sourcename": "AV"}]
+    assert match_source_name("av", sources) == "AV"

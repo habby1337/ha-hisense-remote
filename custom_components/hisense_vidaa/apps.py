@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from typing import Any
 
 from vidaa.topics import APPS, SOURCE_MAP
@@ -42,6 +43,13 @@ def normalize_command(command: str) -> str:
     return command.strip().lower().replace("_", " ")
 
 
+def normalize_commands(command: str | Iterable[str]) -> list[str]:
+    """Normalize remote commands from Home Assistant service calls."""
+    if isinstance(command, str):
+        return [command]
+    return list(command)
+
+
 def resolve_app_command(command: str) -> str | None:
     """Return the app key if the command launches a known app."""
     normalized = normalize_command(command)
@@ -76,6 +84,8 @@ def match_source_name(command: str, sources: list[dict[str, Any]]) -> str | None
     """Match a command against source names reported by the TV."""
     normalized = normalize_command(command).replace(" ", "")
     for source in sources:
+        if not isinstance(source, dict):
+            continue
         for field in ("sourcename", "displayname", "name"):
             value = source.get(field)
             if not isinstance(value, str):

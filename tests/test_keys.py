@@ -31,6 +31,7 @@ def test_resolve_universal_remote_aliases() -> None:
 def test_resolve_common_remote_commands() -> None:
     assert resolve_key("center") == "KEY_OK"
     assert resolve_key("volume_up") == "KEY_VOLUMEUP"
+    assert resolve_key("volume_mute") == "KEY_MUTE"
     assert resolve_key("play_pause") == "KEY_PLAY"
 
 
