@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/habby1337/ha-hisense-remote/compare/ha-hisense-remote-v1.0.3...ha-hisense-remote-v1.1.0) (2026-07-08)
+
+
+### Features
+
+* **examples:** add three dark-themed remote dashboard layouts ([b4e988c](https://github.com/habby1337/ha-hisense-remote/commit/b4e988ce4a0b41ab6281e6e1f76fa53dda7457cd))
+
+
+### Bug Fixes
+
+* **integration:** route app and source commands from remote.send_command ([34e9f8d](https://github.com/habby1337/ha-hisense-remote/commit/34e9f8d1f5893d958f939884a5c2126070e627b1))
+* **lint:** satisfy ruff line length and import ordering ([1be7d6e](https://github.com/habby1337/ha-hisense-remote/commit/1be7d6e3a017e3995d41f5b46b24d7d81167e49c))
+
 ## [1.0.3](https://github.com/habby1337/ha-hisense-remote/compare/ha-hisense-remote-v1.0.2...ha-hisense-remote-v1.0.3) (2026-07-08)
 
 
