@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/habby1337/ha-hisense-remote/compare/ha-hisense-remote-v1.0.1...ha-hisense-remote-v1.0.2) (2026-07-08)
+
+
+### Bug Fixes
+
+* **integration:** repair PIN pairing connection and auth setup ([eac5612](https://github.com/habby1337/ha-hisense-remote/commit/eac561298c69b253f800b048192f1ca7d9691dbd))
+
 ## [1.0.1](https://github.com/habby1337/ha-hisense-remote/compare/ha-hisense-remote-v1.0.0...ha-hisense-remote-v1.0.1) (2026-07-08)
 
 
