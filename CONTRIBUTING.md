@@ -24,35 +24,35 @@ mise run check
 
 ## Versioning and releases
 
-Releases are automated with [semantic-release](https://semantic-release.gitbook.io/) on every merge to `main`.
+Releases are automated with [Release Please](https://github.com/googleapis/release-please) on every merge to `main`.
 
-| Commit type                                 | Version bump                             |
-| ------------------------------------------- | ---------------------------------------- |
-| `fix:`                                      | patch (`0.1.0` → `0.1.1`)                |
-| `feat:`                                     | minor (`0.1.0` → `0.2.0`)                |
-| `BREAKING CHANGE` / `feat!:`                | minor while on `0.x`, major from `1.0.0` |
-| `docs:`, `chore:`, `ci:`, `test:`, `style:` | no release                               |
+| Commit type                                 | Version bump              |
+| ------------------------------------------- | ------------------------- |
+| `fix:`                                      | patch (`1.0.0` → `1.0.1`) |
+| `feat:`                                     | minor (`1.0.0` → `1.1.0`) |
+| `BREAKING CHANGE` / `feat!:`                | major (`1.0.0` → `2.0.0`) |
+| `docs:`, `chore:`, `ci:`, `test:`, `style:` | no release                |
 
-On each releasable merge, the workflow:
+### How it works
 
-1. Analyzes commits since the last tag
-2. Updates `manifest.json`
-3. Updates `CHANGELOG.md`
-4. Creates commit `chore(release): X.Y.Z [skip ci]`
-5. Creates tag `vX.Y.Z` and a GitHub release
+1. A merge to `main` triggers the **Release** workflow (`github-actions[bot]`)
+2. Release Please opens or updates a release PR (`autorelease: pending` label)
+3. The release PR bumps `manifest.json`, `.release-please-manifest.json`, and `CHANGELOG.md`
+4. When CI passes, the release PR is auto-merged
+5. On merge, Release Please creates tag `vX.Y.Z` and a GitHub release
 
 HACS reads the version from `custom_components/hisense_vidaa/manifest.json` and uses GitHub releases when available.
 
-### Bootstrap the first release
+### GitHub settings required
 
-Before the first automated release, tag the current `main` manually:
+- **Allow auto-merge** enabled (Settings → General → Pull Requests)
+- **Signed commits** not required for `github-actions[bot]` (or disabled in the branch ruleset)
 
-```bash
-git tag v0.1.0
-git push origin v0.1.0
-```
+### Initial version
 
-The next releasable merge after that will bump from `0.1.0`.
+The integration targets **1.0.0** as its first public release. `manifest.json` already reflects that version; `.release-please-manifest.json` starts empty so Release Please treats nothing as released yet.
+
+After the first releasable merge to `main`, Release Please opens a release PR (typically `1.0.0` or the next semver from conventional commits). Merging it creates tag `v1.0.0` and the GitHub release.
 
 ## HACS validation
 
