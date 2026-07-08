@@ -1,5 +1,22 @@
 # Contributing
 
+## Branching model
+
+`main` is protected and must receive changes only through pull requests.
+
+1. Create a feature branch from `main`
+2. Use [Conventional Commits](https://www.conventionalcommits.org/)
+3. Open a PR and wait for CI (`validate`) to pass
+4. Merge the PR into `main`
+
+Apply the repository ruleset once (repository admin):
+
+```bash
+gh api repos/habby1337/ha-hisense-remote/rulesets --method POST --input .github/rulesets/main.json
+```
+
+The ruleset blocks direct pushes to `main`, requires CI to pass, and allows `github-actions[bot]` to push release commits.
+
 ## Development environment
 
 This project uses [mise](https://mise.jdx.dev/) for Python and virtualenv management.
@@ -11,51 +28,43 @@ mise run deps
 mise run check
 ```
 
+## Versioning and releases
+
+Releases are automated with [semantic-release](https://semantic-release.gitbook.io/) on every merge to `main`.
+
+| Commit type                                 | Version bump                             |
+| ------------------------------------------- | ---------------------------------------- |
+| `fix:`                                      | patch (`0.1.0` → `0.1.1`)                |
+| `feat:`                                     | minor (`0.1.0` → `0.2.0`)                |
+| `BREAKING CHANGE` / `feat!:`                | minor while on `0.x`, major from `1.0.0` |
+| `docs:`, `chore:`, `ci:`, `test:`, `style:` | no release                               |
+
+On each releasable merge, the workflow:
+
+1. Analyzes commits since the last tag
+2. Updates `manifest.json`
+3. Updates `CHANGELOG.md`
+4. Creates commit `chore(release): X.Y.Z [skip ci]`
+5. Creates tag `vX.Y.Z` and a GitHub release
+
+HACS reads the version from `custom_components/hisense_vidaa/manifest.json` and uses GitHub releases when available.
+
+### Bootstrap the first release
+
+Before the first automated release, tag the current `main` manually:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The next releasable merge after that will bump from `0.1.0`.
+
 ## HACS validation
 
 The CI workflow runs hassfest, HACS validation, ruff and pytest.
 
 For HACS checks to pass, the GitHub repository needs topics (`home-assistant`, `hacs`, `homeassistant`) and a brand icon at `custom_components/hisense_vidaa/brand/icon.png`.
-
-## Versioning
-
-HACS and Home Assistant read the version from `custom_components/hisense_vidaa/manifest.json`. That file is the single source of truth.
-
-### How HACS uses versions
-
-- **With GitHub releases** (recommended): HACS offers the latest releases plus the default branch. The release tag must be `vX.Y.Z` and match `manifest.json` ([HACS docs](https://www.hacs.xyz/docs/publish/start/#versions)).
-- **Without releases**: HACS installs from `main` and shows the `manifest.json` version.
-
-Use [Semantic Versioning](https://semver.org/):
-
-- `0.x.y` while the integration is still evolving
-- `1.0.0` when the public API and config flow are stable
-
-### Release workflow
-
-1. Merge changes on `main`
-2. Bump the version:
-
-   ```bash
-   mise run version -- 0.2.0
-   ```
-
-3. Commit:
-
-   ```bash
-   git add custom_components/hisense_vidaa/manifest.json pyproject.toml
-   git commit -m "chore(release): bump version to 0.2.0"
-   ```
-
-4. Tag and push:
-
-   ```bash
-   git tag v0.2.0
-   git push origin main
-   git push origin v0.2.0
-   ```
-
-Pushing the tag triggers `.github/workflows/release.yml`, which validates that `v0.2.0` matches `manifest.json` and creates the GitHub release.
 
 ## Protocol
 
