@@ -124,8 +124,8 @@ class HisenseVidaaMediaPlayer(HisenseVidaaEntity, MediaPlayerEntity):
             if sources:
                 for source in sources:
                     if isinstance(source, dict):
-                        name = source.get("sourcename") or source.get("name")
-                        if name:
+                        name = source.get("displayname") or source.get("sourcename") or source.get("name")
+                        if name and name not in source_list:
                             source_list.append(name)
 
             if apps:
@@ -136,6 +136,7 @@ class HisenseVidaaMediaPlayer(HisenseVidaaEntity, MediaPlayerEntity):
                             source_list.append(name)
 
             self._source_list = source_list
+            self.async_write_ha_state()
         except Exception as err:  # noqa: BLE001
             _LOGGER.debug("Error updating sources: %s", err)
 

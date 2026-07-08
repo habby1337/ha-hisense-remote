@@ -14,6 +14,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .coordinator import HisenseVidaaCoordinator
 from .entity import HisenseVidaaEntity
+from .apps import match_source_name, resolve_app_command, resolve_source_command
 from .keys import resolve_key
 
 if TYPE_CHECKING:
@@ -100,6 +101,33 @@ class HisenseVidaaRemote(HisenseVidaaEntity, RemoteEntity):
 
         for _ in range(num_repeats):
             for cmd in command:
-                await self.coordinator.async_send_key(resolve_key(cmd))
+                await self._async_dispatch_command(cmd)
             if delay_secs > 0:
                 await asyncio.sleep(delay_secs)
+
+    async def _async_dispatch_command(self, command: str) -> None:
+        app_key = resolve_app_command(command)
+        if app_key:
+            await self.coordinator.async_launch_app(app_key)
+            return
+
+        source_key = resolve_source_command(command)
+        if source_key:
+            await self.coordinator.async_select_source(source_key)
+            return
+
+        sources = await self.coordinator.async_get_sources() or []
+        matched_source = match_source_name(command, sources)
+        if matched_source:
+            await self.coordinator.async_select_source(matched_source)
+            return
+
+        apps = await self.coordinator.async_get_apps() or []
+        normalized = command.strip().lower()
+        for app in apps:
+            name = app.get("name")
+            if isinstance(name, str) and name.lower() == normalized:
+                await self.coordinator.async_launch_app(name)
+                return
+
+        await self.coordinator.async_send_key(resolve_key(command))
