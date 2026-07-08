@@ -21,8 +21,18 @@ jobs:
         with:
           category: integration
 
+      - name: Cache Python virtualenv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-py3.12-${{ hashFiles('requirements-dev.txt', '.mise.toml') }}
+          restore-keys: |
+            venv-${{ runner.os }}-py3.12-
+
       - name: Set up mise
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v4
+        with:
+          cache: true
 
       - name: Lint and test
         run: mise run check
