@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.3](https://github.com/habby1337/ha-hisense-remote/compare/ha-hisense-remote-v1.0.2...ha-hisense-remote-v1.0.3) (2026-07-08)
+
+
+### Bug Fixes
+
+* **ci:** merge release PR from Release workflow on main push ([3acf466](https://github.com/habby1337/ha-hisense-remote/commit/3acf466c938cc1d95a4f1789683952834a8aefc3))
+* **ci:** unblock release PR merge without github-actions bypass ([5620d1a](https://github.com/habby1337/ha-hisense-remote/commit/5620d1ae1d4631b80aad3814f569e53928f1e941))
+
 ## [1.0.2](https://github.com/habby1337/ha-hisense-remote/compare/ha-hisense-remote-v1.0.1...ha-hisense-remote-v1.0.2) (2026-07-08)
 
 
