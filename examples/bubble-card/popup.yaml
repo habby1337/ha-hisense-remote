@@ -14,9 +14,6 @@ name: Hisense TV
 icon: mdi:remote-tv
 show_header: true
 show_close_button: true
-bg_color: "#1c1c1e"
-bg_opacity: "100"
-shadow_opacity: "0"
 close_by_clicking_outside: true
 cards:
   - type: custom:bubble-card
@@ -30,12 +27,6 @@ cards:
     attribute: source
     tap_action:
       action: more-info
-    styles: |-
-      :host {
-        --bubble-main-background-color: #2c2c2e;
-        --bubble-icon-color: #f2f2f2;
-        --bubble-name-color: #f2f2f2;
-      }
 
   - type: horizontal-stack
     cards:
@@ -51,9 +42,7 @@ cards:
             entity_id: media_player.hisense_tv
         styles: |-
           {% if is_state('media_player.hisense_tv', 'on') %}
-          :host { --bubble-main-background-color: #1c3d1c; --bubble-icon-color: #34c759; }
-          {% else %}
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #8e8e93; }
+          :host { --bubble-icon-color: var(--success-color); }
           {% endif %}
 
       - type: custom:bubble-card
@@ -68,8 +57,6 @@ cards:
             entity_id: remote.hisense_tv_remote
           data:
             command: volume_mute
-        styles: |-
-          :host { --bubble-main-background-color: #3a3a3c; --bubble-icon-color: #f2f2f2; }
 
       - type: custom:bubble-card
         card_type: button
@@ -83,8 +70,6 @@ cards:
             entity_id: remote.hisense_tv_remote
           data:
             command: home
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
       - type: custom:bubble-card
         card_type: button
@@ -98,8 +83,6 @@ cards:
             entity_id: remote.hisense_tv_remote
           data:
             command: back
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
       - type: custom:bubble-card
         card_type: button
@@ -113,8 +96,6 @@ cards:
             entity_id: remote.hisense_tv_remote
           data:
             command: menu
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
   - type: horizontal-stack
     cards:
@@ -130,8 +111,6 @@ cards:
             entity_id: remote.hisense_tv_remote
           data:
             command: volume_down
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
       - type: custom:bubble-card
         card_type: button
@@ -143,8 +122,6 @@ cards:
         show_name: false
         read_only_slider: true
         slider_value_position: center
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
       - type: custom:bubble-card
         card_type: button
@@ -158,8 +135,6 @@ cards:
             entity_id: remote.hisense_tv_remote
           data:
             command: volume_up
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
   - type: vertical-stack
     cards:
@@ -179,10 +154,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: up
-            styles: |-
-              :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
-          - type: custom:bubble-card
-            card_type: empty-column
 
       - type: horizontal-stack
         cards:
@@ -198,8 +169,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: left
-            styles: |-
-              :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
           - type: custom:bubble-card
             card_type: button
@@ -213,8 +182,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: center
-            styles: |-
-              :host { --bubble-main-background-color: #3a3a3c; --bubble-icon-color: #d1d1d6; }
 
           - type: custom:bubble-card
             card_type: button
@@ -228,8 +195,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: right
-            styles: |-
-              :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
       - type: horizontal-stack
         cards:
@@ -247,10 +212,6 @@ cards:
                 entity_id: remote.hisense_tv_remote
               data:
                 command: down
-            styles: |-
-              :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
-          - type: custom:bubble-card
-            card_type: empty-column
 
   - type: horizontal-stack
     cards:
@@ -266,8 +227,6 @@ cards:
             entity_id: remote.hisense_tv_remote
           data:
             command: play_pause
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
       - type: custom:bubble-card
         card_type: button
@@ -281,8 +240,6 @@ cards:
             entity_id: remote.hisense_tv_remote
           data:
             command: stop
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
   - type: custom:bubble-card
     card_type: separator
@@ -302,8 +259,6 @@ cards:
             entity_id: media_player.hisense_tv
           data:
             source: tv
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
       - type: custom:bubble-card
         card_type: button
@@ -317,8 +272,6 @@ cards:
             entity_id: media_player.hisense_tv
           data:
             source: av
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
       - type: custom:bubble-card
         card_type: button
@@ -332,8 +285,6 @@ cards:
             entity_id: media_player.hisense_tv
           data:
             source: hdmi1
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
       - type: custom:bubble-card
         card_type: button
@@ -347,8 +298,6 @@ cards:
             entity_id: media_player.hisense_tv
           data:
             source: hdmi2
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #f2f2f2; }
 
   - type: custom:bubble-card
     card_type: separator
@@ -368,8 +317,6 @@ cards:
             entity_id: remote.hisense_tv_remote
           data:
             command: netflix
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #e50914; }
 
       - type: custom:bubble-card
         card_type: button
@@ -383,5 +330,3 @@ cards:
             entity_id: remote.hisense_tv_remote
           data:
             command: youtube
-        styles: |-
-          :host { --bubble-main-background-color: #2c2c2e; --bubble-icon-color: #ff0000; }
