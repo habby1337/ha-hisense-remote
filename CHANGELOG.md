@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/habby1337/ha-hisense-remote/compare/ha-hisense-remote-v1.0.0...ha-hisense-remote-v1.0.1) (2026-07-08)
+
+
+### Bug Fixes
+
+* **ci:** publish GitHub release after rebase-merged release PR ([163c699](https://github.com/habby1337/ha-hisense-remote/commit/163c6993b1d3b2f91a8f009a2e9ffbaa22e88580))
+
 ## 1.0.0 (2026-07-08)
 
 
