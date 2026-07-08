@@ -35,11 +35,18 @@ Releases are automated with [Release Please](https://github.com/googleapis/relea
 
 ### How it works
 
-1. A merge to `main` triggers the **Release** workflow (`github-actions[bot]`)
+| Event | Workflows |
+| ----- | --------- |
+| Feature PR → `main` | **CI** (validate) |
+| Merge feature PR → `main` | **CI** + **Release** (update release PR) |
+| Release PR from Release Please | **Automerge** only (no CI) |
+| Merge release PR → `main` | **Release** (tag + GitHub release) |
+
+1. A merge to `main` triggers **Release** (`github-actions[bot]`)
 2. Release Please opens or updates a release PR (`autorelease: pending` label)
-3. The release PR bumps `manifest.json`, `.release-please-manifest.json`, and `CHANGELOG.md`
-4. When CI passes, the release PR is auto-merged
-5. On merge, Release Please creates tag `vX.Y.Z` and a GitHub release
+3. The release PR only bumps `manifest.json`, `.release-please-manifest.json`, and `CHANGELOG.md`
+4. **Automerge** merges the release PR directly (code was already validated on feature PRs)
+5. On merge, **Release** creates tag `vX.Y.Z` and a GitHub release
 
 HACS reads the version from `custom_components/hisense_vidaa/manifest.json` and uses GitHub releases when available.
 
@@ -47,6 +54,7 @@ HACS reads the version from `custom_components/hisense_vidaa/manifest.json` and 
 
 - **Allow GitHub Actions to create and approve pull requests** enabled (Settings → Actions → General → Workflow permissions)
 - **Allow auto-merge** enabled (Settings → General → Pull Requests)
+- **`github-actions[bot]` bypass** in the `main` ruleset (needed to merge release PRs without CI)
 - **Signed commits** not required for `github-actions[bot]` (or disabled in the branch ruleset)
 
 Without the first setting, Release Please fails with:
