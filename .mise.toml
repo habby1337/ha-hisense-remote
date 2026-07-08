@@ -21,3 +21,7 @@ run = "pytest"
 [tasks.check]
 description = "Run lint and tests"
 depends = ["lint", "test"]
+
+[tasks.version]
+description = "Set integration version in manifest.json and pyproject.toml"
+run = "python scripts/set_version.py"
