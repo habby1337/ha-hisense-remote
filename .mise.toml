@@ -6,7 +6,7 @@ _.python.venv = { path = ".venv", create = true }
 
 [tasks.deps]
 description = "Install development dependencies"
-run = "pip install -e '.[dev]'"
+run = "pip install -r requirements-dev.txt"
 
 [tasks.lint]
 description = "Run ruff linter"
@@ -21,7 +21,3 @@ run = "pytest"
 [tasks.check]
 description = "Run lint and tests"
 depends = ["lint", "test"]
-
-[tasks.version]
-description = "Set integration version in manifest.json and pyproject.toml"
-run = "python scripts/set_version.py"
