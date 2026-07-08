@@ -124,7 +124,11 @@ class HisenseVidaaMediaPlayer(HisenseVidaaEntity, MediaPlayerEntity):
             if sources:
                 for source in sources:
                     if isinstance(source, dict):
-                        name = source.get("displayname") or source.get("sourcename") or source.get("name")
+                        name = (
+                            source.get("displayname")
+                            or source.get("sourcename")
+                            or source.get("name")
+                        )
                         if name and name not in source_list:
                             source_list.append(name)
 
