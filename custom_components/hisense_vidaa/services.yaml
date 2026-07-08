@@ -1,0 +1,15 @@
+send_key:
+  fields:
+    key:
+      required: true
+      example: KEY_HOME
+      selector:
+        text:
+
+launch_app:
+  fields:
+    app:
+      required: true
+      example: netflix
+      selector:
+        text:
