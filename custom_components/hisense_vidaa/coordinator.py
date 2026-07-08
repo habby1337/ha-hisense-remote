@@ -14,6 +14,7 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from vidaa.wol import wake_tv
 
+from .apps import match_source_name, resolve_app_command, resolve_source_command
 from .client import HisenseVidaaClient
 from .const import (
     CONF_DEVICE_ID,
@@ -256,6 +257,19 @@ class HisenseVidaaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def async_select_source(self, source: str) -> None:
         """Select an input source."""
+        source_key = resolve_source_command(source)
+        if source_key:
+            await self.client.set_source(source_key)
+            await self.async_request_refresh()
+            return
+
+        sources = await self.client.get_sources() or []
+        matched = match_source_name(source, sources)
+        if matched:
+            await self.client.set_source(matched)
+            await self.async_request_refresh()
+            return
+
         await self.client.set_source(source)
         await self.async_request_refresh()
 
@@ -265,7 +279,8 @@ class HisenseVidaaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def async_launch_app(self, app_name: str) -> None:
         """Launch an application."""
-        await self.client.launch_app(app_name)
+        app_key = resolve_app_command(app_name) or app_name
+        await self.client.launch_app(app_key)
         await self.async_request_refresh()
 
     async def async_get_apps(self) -> list[dict[str, Any]] | None:
