@@ -6,6 +6,7 @@
 #   remote.hisense_tv_remote
 #
 # Opened by slider.yaml via navigation_path "#hisense-remote".
+#
 
 type: custom:bubble-card
 card_type: pop-up
@@ -28,218 +29,304 @@ cards:
     tap_action:
       action: more-info
 
-  - type: horizontal-stack
-    cards:
-      - type: custom:bubble-card
-        card_type: button
-        button_type: name
-        name: Power
-        icon: mdi:power
-        tap_action:
-          action: perform-action
-          perform_action: media_player.toggle
-          target:
-            entity_id: media_player.hisense_tv
-        styles: |-
-          {% if is_state('media_player.hisense_tv', 'on') %}
-          :host { --bubble-icon-color: var(--success-color); }
-          {% endif %}
+  - type: custom:bubble-card
+    card_type: sub-buttons
+    hide_main_background: true
+    rows: 1.05
+    sub_button:
+      main: []
+      bottom:
+        - buttons_layout: inline
+          justify_content: fill
+          group:
+            - entity: media_player.hisense_tv
+              icon: mdi:power
+              show_name: false
+              show_background: false
+              custom_height: 56
+              tap_action:
+                action: toggle
+            - name: Mute
+              icon: mdi:volume-off
+              show_name: false
+              show_background: false
+              custom_height: 56
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: volume_mute
+            - name: Home
+              icon: mdi:home
+              show_name: false
+              show_background: false
+              custom_height: 56
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: home
+            - name: Back
+              icon: mdi:arrow-left
+              show_name: false
+              show_background: false
+              custom_height: 56
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: back
+            - name: Menu
+              icon: mdi:menu
+              show_name: false
+              show_background: false
+              custom_height: 56
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: menu
+    styles: |
+      .bubble-sub-button {
+        height: 56px !important;
+        width: 56px !important;
+      }
+      .bubble-sub-button > ha-icon {
+        --mdc-icon-size: 28px !important;
+      }
+      .bubble-sub-button-1 > ha-icon {
+        color: ${hass.states['media_player.hisense_tv'].state === 'on' ? 'var(--success-color)' : 'var(--error-color)'} !important;
+      }
 
-      - type: custom:bubble-card
-        card_type: button
-        button_type: name
-        name: Mute
-        icon: mdi:volume-off
-        tap_action:
-          action: perform-action
-          perform_action: remote.send_command
-          target:
-            entity_id: remote.hisense_tv_remote
-          data:
-            command: volume_mute
+  - type: custom:bubble-card
+    card_type: sub-buttons
+    hide_main_background: true
+    rows: 0.85
+    sub_button:
+      main: []
+      bottom:
+        - buttons_layout: inline
+          justify_content: fill
+          group:
+            - name: Vol -
+              icon: mdi:volume-minus
+              show_name: false
+              show_background: false
+              fill_width: false
+              custom_height: 46
+              width: 46
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: volume_down
+            - entity: media_player.hisense_tv
+              sub_button_type: slider
+              show_name: false
+              show_icon: false
+              show_button_info: false
+              show_background: false
+              always_visible: true
+              read_only_slider: true
+              slider_value_position: center
+              fill_width: true
+              custom_height: 46
+            - name: Vol +
+              icon: mdi:volume-plus
+              show_name: false
+              show_background: false
+              fill_width: false
+              custom_height: 46
+              width: 46
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: volume_up
+    styles: |
+      .bubble-sub-button-1,
+      .bubble-sub-button-3 {
+        height: 46px !important;
+        width: 46px !important;
+        min-width: 46px !important;
+        max-width: 46px !important;
+        flex: 0 0 46px !important;
+      }
+      .bubble-sub-button-1 > ha-icon,
+      .bubble-sub-button-3 > ha-icon {
+        --mdc-icon-size: 24px !important;
+      }
+      .bubble-sub-button-2 {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+      }
 
-      - type: custom:bubble-card
-        card_type: button
-        button_type: name
-        name: Home
-        icon: mdi:home
-        tap_action:
-          action: perform-action
-          perform_action: remote.send_command
-          target:
-            entity_id: remote.hisense_tv_remote
-          data:
-            command: home
+  - type: custom:bubble-card
+    card_type: sub-buttons
+    hide_main_background: true
+    rows: 0.85
+    sub_button:
+      main: []
+      bottom:
+        - buttons_layout: inline
+          justify_content: center
+          group:
+            - name: Up
+              icon: mdi:chevron-up
+              show_name: false
+              show_background: false
+              fill_width: false
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: up
+    styles: |
+      .bubble-sub-button {
+        height: 46px !important;
+        width: 46px !important;
+      }
+      .bubble-sub-button-icon {
+        --mdc-icon-size: inherit !important;
+      }
 
-      - type: custom:bubble-card
-        card_type: button
-        button_type: name
-        name: Back
-        icon: mdi:arrow-left
-        tap_action:
-          action: perform-action
-          perform_action: remote.send_command
-          target:
-            entity_id: remote.hisense_tv_remote
-          data:
-            command: back
+  - type: custom:bubble-card
+    card_type: sub-buttons
+    hide_main_background: true
+    rows: 0.85
+    sub_button:
+      main: []
+      bottom:
+        - buttons_layout: inline
+          justify_content: fill
+          group:
+            - name: Left
+              icon: mdi:chevron-left
+              show_name: false
+              show_background: false
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: left
+            - name: OK
+              icon: mdi:circle
+              show_name: false
+              show_background: false
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: center
+            - name: Right
+              icon: mdi:chevron-right
+              show_name: false
+              show_background: false
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: right
+    styles: |
+      .bubble-sub-button {
+        height: 46px !important;
+        width: 46px !important;
+      }
+      .bubble-sub-button-icon {
+        --mdc-icon-size: inherit !important;
+      }
 
-      - type: custom:bubble-card
-        card_type: button
-        button_type: name
-        name: Menu
-        icon: mdi:menu
-        tap_action:
-          action: perform-action
-          perform_action: remote.send_command
-          target:
-            entity_id: remote.hisense_tv_remote
-          data:
-            command: menu
+  - type: custom:bubble-card
+    card_type: sub-buttons
+    hide_main_background: true
+    rows: 0.85
+    sub_button:
+      main: []
+      bottom:
+        - buttons_layout: inline
+          justify_content: center
+          group:
+            - name: Down
+              icon: mdi:chevron-down
+              show_name: false
+              show_background: false
+              fill_width: false
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: down
+    styles: |
+      .bubble-sub-button {
+        height: 46px !important;
+        width: 46px !important;
+      }
+      .bubble-sub-button-icon {
+        --mdc-icon-size: inherit !important;
+      }
 
-  - type: horizontal-stack
-    cards:
-      - type: custom:bubble-card
-        card_type: button
-        button_type: name
-        name: Vol -
-        icon: mdi:volume-minus
-        tap_action:
-          action: perform-action
-          perform_action: remote.send_command
-          target:
-            entity_id: remote.hisense_tv_remote
-          data:
-            command: volume_down
-
-      - type: custom:bubble-card
-        card_type: button
-        button_type: slider
-        entity: media_player.hisense_tv
-        name: Volume
-        icon: mdi:volume-high
-        show_icon: true
-        show_name: false
-        read_only_slider: true
-        slider_value_position: center
-
-      - type: custom:bubble-card
-        card_type: button
-        button_type: name
-        name: Vol +
-        icon: mdi:volume-plus
-        tap_action:
-          action: perform-action
-          perform_action: remote.send_command
-          target:
-            entity_id: remote.hisense_tv_remote
-          data:
-            command: volume_up
-
-  - type: vertical-stack
-    cards:
-      - type: horizontal-stack
-        cards:
-          - type: custom:bubble-card
-            card_type: empty-column
-          - type: custom:bubble-card
-            card_type: button
-            button_type: name
-            name: Up
-            icon: mdi:chevron-up
-            tap_action:
-              action: perform-action
-              perform_action: remote.send_command
-              target:
-                entity_id: remote.hisense_tv_remote
-              data:
-                command: up
-
-      - type: horizontal-stack
-        cards:
-          - type: custom:bubble-card
-            card_type: button
-            button_type: name
-            name: Left
-            icon: mdi:chevron-left
-            tap_action:
-              action: perform-action
-              perform_action: remote.send_command
-              target:
-                entity_id: remote.hisense_tv_remote
-              data:
-                command: left
-
-          - type: custom:bubble-card
-            card_type: button
-            button_type: name
-            name: OK
-            icon: mdi:circle
-            tap_action:
-              action: perform-action
-              perform_action: remote.send_command
-              target:
-                entity_id: remote.hisense_tv_remote
-              data:
-                command: center
-
-          - type: custom:bubble-card
-            card_type: button
-            button_type: name
-            name: Right
-            icon: mdi:chevron-right
-            tap_action:
-              action: perform-action
-              perform_action: remote.send_command
-              target:
-                entity_id: remote.hisense_tv_remote
-              data:
-                command: right
-
-      - type: horizontal-stack
-        cards:
-          - type: custom:bubble-card
-            card_type: empty-column
-          - type: custom:bubble-card
-            card_type: button
-            button_type: name
-            name: Down
-            icon: mdi:chevron-down
-            tap_action:
-              action: perform-action
-              perform_action: remote.send_command
-              target:
-                entity_id: remote.hisense_tv_remote
-              data:
-                command: down
-
-  - type: horizontal-stack
-    cards:
-      - type: custom:bubble-card
-        card_type: button
-        button_type: name
-        name: Play/Pause
-        icon: mdi:play-pause
-        tap_action:
-          action: perform-action
-          perform_action: remote.send_command
-          target:
-            entity_id: remote.hisense_tv_remote
-          data:
-            command: play_pause
-
-      - type: custom:bubble-card
-        card_type: button
-        button_type: name
-        name: Stop
-        icon: mdi:stop
-        tap_action:
-          action: perform-action
-          perform_action: remote.send_command
-          target:
-            entity_id: remote.hisense_tv_remote
-          data:
-            command: stop
+  - type: custom:bubble-card
+    card_type: sub-buttons
+    hide_main_background: true
+    rows: 0.85
+    sub_button:
+      main: []
+      bottom:
+        - buttons_layout: inline
+          justify_content: fill
+          group:
+            - name: Play/Pause
+              icon: mdi:play-pause
+              show_name: false
+              show_background: false
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: play_pause
+            - name: Stop
+              icon: mdi:stop
+              show_name: false
+              show_background: false
+              tap_action:
+                action: perform-action
+                perform_action: remote.send_command
+                target:
+                  entity_id: remote.hisense_tv_remote
+                data:
+                  command: stop
+    styles: |
+      .bubble-sub-button {
+        height: 46px !important;
+        width: 46px !important;
+      }
+      .bubble-sub-button-icon {
+        --mdc-icon-size: inherit !important;
+      }
 
   - type: custom:bubble-card
     card_type: separator
